@@ -43,3 +43,8 @@ th:not(:last-child),
 td:not(:last-child) {
   border-right: var(--border);
 }
+
+input {
+  accent-color: pink;
+  color: white;
+}
