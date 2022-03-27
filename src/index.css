@@ -23,6 +23,7 @@ code {
 
 table {
   border-collapse: collapse;
+  box-shadow: 0 0 5px 1px rgb(219, 216, 216);
 }
 
 tr:not(:last-child),
@@ -46,5 +47,4 @@ td:not(:last-child) {
 
 input {
   accent-color: pink;
-  color: white;
 }
