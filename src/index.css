@@ -9,11 +9,17 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 code {
@@ -47,4 +53,21 @@ td:not(:last-child) {
 
 input {
   accent-color: pink;
+}
+
+b {
+  color: pink;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 0;
+  gap: 1rem;
+  flex-direction: column;
+}
+
+header > label {
+  display: flex;
+  gap: 1rem;
 }

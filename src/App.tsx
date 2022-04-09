@@ -2,61 +2,106 @@ import React from "react";
 
 export function App() {
   const [checked, setChecked] = React.useState("");
-  const [filterValue, setFilterValue] = React.useState("");
+  const [isTypeColumnHidden, toggleIsTypeColumnHidden] = React.useReducer(
+    (p) => !p,
+    false
+  );
+  const [typeFilterValue, setTypeFilterValue] = React.useState("");
+  const [tableFilterValue, setTableFilterValue] = React.useState("");
 
   const data = [
     { name: "name-1", type: "type-1", value: "1" },
     { name: "name-2", type: "type-2", value: "2" },
   ];
-  console.log(filterValue);
 
   return (
-    <Table data={data} filter={(entry) => entry.name.includes(filterValue)}>
-      <Column<typeof data[0]>
-        id="check"
-        label={
+    <>
+      <header>
+        <label>
+          Filter name column
           <input
-            value="all"
-            type="checkbox"
-            checked={checked == "all"}
-            onChange={(event) =>
-              setChecked((prev) => (prev !== "all" ? event.target.value : ""))
-            }
+            value={tableFilterValue}
+            onChange={(event) => setTableFilterValue(event.target.value)}
           />
-        }
-        cell={(entry) => (
+        </label>
+        <label title="Hiding should disable column filtering">
+          Hide type column
           <input
+            value="hide-type-column"
             type="checkbox"
-            value={entry.value}
-            checked={[entry.value, "all"].includes(checked)}
-            onChange={(event) => setChecked(event.target.value)}
+            checked={isTypeColumnHidden}
+            onChange={toggleIsTypeColumnHidden}
+          />
+        </label>
+      </header>
+      <Table
+        data={data}
+        filter={(entry) => entry.name.includes(tableFilterValue)}
+      >
+        <Column<typeof data[0]>
+          id="check"
+          label={
+            <input
+              value="all"
+              type="checkbox"
+              checked={checked == "all"}
+              onChange={(event) =>
+                setChecked((prev) => (prev !== "all" ? event.target.value : ""))
+              }
+            />
+          }
+          cell={(entry) => (
+            <input
+              type="checkbox"
+              value={entry.value}
+              checked={[entry.value, "all"].includes(checked)}
+              onChange={(event) => setChecked(event.target.value)}
+            />
+          )}
+        />
+        <Column<typeof data[0]> dataKey="name" label="name" />
+        {!isTypeColumnHidden && (
+          <Column<typeof data[0]>
+            filter={(entry) => entry.type.includes(typeFilterValue)}
+            dataKey="type"
+            label={
+              <input
+                placeholder="filter by type column"
+                value={typeFilterValue}
+                onChange={(event) => setTypeFilterValue(event.target.value)}
+              />
+            }
+            cell={(entry) => {
+              const cellValue = entry.type;
+              const startMatchIdx = cellValue.indexOf(typeFilterValue);
+              if (startMatchIdx === -1) {
+                return cellValue;
+              }
+              return (
+                <>
+                  {cellValue.slice(0, startMatchIdx)}
+                  <b>
+                    {cellValue.slice(
+                      startMatchIdx,
+                      startMatchIdx + typeFilterValue.length
+                    )}
+                  </b>
+                  {cellValue.slice(startMatchIdx + typeFilterValue.length)}
+                </>
+              );
+            }}
           />
         )}
-      />
-      <Column<typeof data[0]> dataKey="name" label="name" />
-      <Column<typeof data[0]>
-        dataKey="type"
-        label={<code>type</code>}
-        cell={(entry) => <button>{entry.type}</button>}
-      />
-      <Column
-        label={
-          <input
-            value={filterValue}
-            onChange={(event) => setFilterValue(event.target.value)}
-          />
-        }
-        cell={":)"}
-      ></Column>
-      {checked === "all" && (
-        <Column
-          id="all-checked"
-          label={<span style={{ width: "20rem" }}>all checked</span>}
-        >
-          <div style={{ textAlign: "center", width: "100%" }}>&#128514;</div>
-        </Column>
-      )}
-    </Table>
+        {checked === "all" && (
+          <Column
+            id="all-checked"
+            label={<span style={{ width: "20rem" }}>all checked</span>}
+          >
+            <div style={{ textAlign: "center", width: "100%" }}>&#128514;</div>
+          </Column>
+        )}
+      </Table>
+    </>
   );
 }
 
@@ -92,7 +137,14 @@ function Table<DataType extends Record<string, unknown>>({
     };
   });
 
-  const data = props.filter ? props.data.filter(props.filter) : props.data;
+  const filters = columns
+    ?.map((column) => column.filter as ColumnProps<DataType>["filter"])
+    .concat(props.filter)
+    .filter((filter) => filter !== undefined);
+
+  const filteredData = filters?.length
+    ? props.data.filter?.((entry) => filters.every((filter) => filter?.(entry)))
+    : props.data;
 
   return (
     <table>
@@ -104,7 +156,7 @@ function Table<DataType extends Record<string, unknown>>({
         </tr>
       </thead>
       <tbody>
-        {data.map((entry) => (
+        {filteredData.map((entry) => (
           <tr key={JSON.stringify(entry)}>
             {columns?.map((column) => (
               <React.Fragment key={column._id}>
@@ -128,6 +180,7 @@ type ColumnProps<DataType> = {
   label: React.ReactNode;
   cell?: RenderCellProp<DataType>;
   children?: RenderCellProp<DataType>;
+  filter?: (entry: DataType) => boolean;
 };
 
 const Column = <DataType extends Record<string, unknown>>(
