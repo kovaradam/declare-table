@@ -1,5 +1,15 @@
 import React from "react";
 
+const dataSize = 1500;
+
+const data = Array(dataSize)
+  .fill(null)
+  .map((_, index) => ({
+    name: `name-${index}`,
+    type: `type-${index}`,
+    value: String(index),
+  }));
+
 export function App() {
   const [checked, setChecked] = React.useState("");
   const [isTypeColumnHidden, toggleIsTypeColumnHidden] = React.useReducer(
@@ -8,12 +18,6 @@ export function App() {
   );
   const [typeFilterValue, setTypeFilterValue] = React.useState("");
   const [tableFilterValue, setTableFilterValue] = React.useState("");
-
-  const data = [
-    { name: "name-1", type: "type-1", value: "1" },
-    { name: "name-2", type: "type-2", value: "2" },
-  ];
-
   return (
     <>
       <header>
