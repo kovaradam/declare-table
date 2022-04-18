@@ -16,29 +16,27 @@ const defaultData = [
   { name: "jane", age: 32 },
 ];
 
+export const Basic = () => (
+  <Table data={defaultData}>
+    <Table.Column dataKey="name" label="Name" />
+    <Table.Column dataKey="age" label="Age" />
+  </Table>
+);
+
+export const WithStyling = () => (
+  <Table data={defaultData} className="table">
+    <Table.Column dataKey="name" label="Name" />
+    <Table.Column dataKey="age" label="Age" />
+  </Table>
+);
+
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template: ComponentStory<typeof Table> = (args) => (
   <Table {...{ ...{ className: "table" }, ...args }} />
 );
 
-export const Plain = Template.bind({});
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
-Plain.args = {
-  data: defaultData,
-  children: [
-    <Table.Column dataKey="name" label="Name" />,
-    <Table.Column dataKey="age" label="Age" />,
-  ],
-};
-
-export const DefaultStyle = Template.bind({});
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
-DefaultStyle.args = {
-  ...Plain.args,
-  className: "",
-};
-
 export const WithJsxLabel = Template.bind({});
+// More on args: https://storybook.js.org/docs/react/writing-stories/args
 WithJsxLabel.args = {
   data: defaultData,
   children: [
@@ -69,15 +67,47 @@ WithTableFilter.args = {
   ],
 };
 
-export const WithColumnFilter = Template.bind({});
-WithColumnFilter.args = {
-  data: defaultData,
-  children: [
-    <Table.Column<typeof defaultData[0]>
-      label="Name"
-      dataKey="name"
-      filter={(entry) => entry.name.includes("jo")}
-    />,
-    <Table.Column dataKey="age" label="Age" />,
-  ],
+export const WithColumnFilter = () => {
+  const [nameFilterValue, setNameFilterValue] = React.useState("");
+
+  return (
+    <Table data={defaultData} className="table">
+      <Table.Column<typeof defaultData[0]>
+        label={
+          <input
+            placeholder="name filter"
+            value={nameFilterValue}
+            onChange={(event) => setNameFilterValue(event.target.value)}
+          />
+        }
+        dataKey="name"
+        filter={(entry) => entry.name.includes(nameFilterValue)}
+      />
+      <Table.Column dataKey="age" label="Age" />
+    </Table>
+  );
+};
+
+export const WithColumnToggle = () => {
+  const [isAgeColumnVisible, toggleIsAgeColumnVisible] = React.useReducer(
+    (p) => !p,
+    true
+  );
+
+  return (
+    <>
+      <label>
+        is age column visible{" "}
+        <input
+          type="checkbox"
+          checked={isAgeColumnVisible}
+          onChange={toggleIsAgeColumnVisible}
+        />
+      </label>
+      <Table data={defaultData} className="table">
+        <Table.Column label="Name" dataKey="name" />
+        {isAgeColumnVisible && <Table.Column dataKey="age" label="Age" />}
+      </Table>
+    </>
+  );
 };
