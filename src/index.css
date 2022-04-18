@@ -27,27 +27,27 @@ code {
     monospace;
 }
 
-table {
+.table {
   border-collapse: collapse;
   box-shadow: 0 0 5px 1px rgb(219, 216, 216);
 }
 
-tr:not(:last-child),
-thead > tr {
+.table tr:not(:last-child),
+.table thead > tr {
   border-bottom: var(--border);
 }
 
-thead > tr {
+.table thead > tr {
   border-bottom-style: double;
 }
 
-th,
-td {
+.table th,
+.table td {
   padding: 1rem;
 }
 
-th:not(:last-child),
-td:not(:last-child) {
+.table th:not(:last-child),
+.table td:not(:last-child) {
   border-right: var(--border);
 }
 
