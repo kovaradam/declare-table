@@ -1,7 +1,7 @@
 {
   "name": "declare-table",
   "version": "0.0.0",
-  "description": "Declare tables in React te easy way",
+  "description": "Declare tables in React the easy way",
   "main": "lib/index.tsx",
   "directories": {
     "lib": "lib"
