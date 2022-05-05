@@ -1,0 +1,73 @@
+:root {
+  --border: 1px dashed pink;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.table {
+  border-collapse: collapse;
+  box-shadow: 0 0 5px 1px rgb(219, 216, 216);
+}
+
+.table tr:not(:last-child),
+.table thead > tr {
+  border-bottom: var(--border);
+}
+
+.table thead > tr {
+  border-bottom-style: double;
+}
+
+.table th,
+.table td {
+  padding: 1rem;
+}
+
+.table th:not(:last-child),
+.table td:not(:last-child) {
+  border-right: var(--border);
+}
+
+input {
+  accent-color: pink;
+}
+
+b {
+  color: pink;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 0;
+  gap: 1rem;
+  flex-direction: column;
+}
+
+header > label {
+  display: flex;
+  gap: 1rem;
+}

@@ -1,0 +1,24 @@
+{
+  "name": "declare-table-demo",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "declare-table": "file:..",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@vitejs/plugin-react": "^1.0.7",
+    "babel-loader": "^8.2.4",
+    "typescript": "^4.5.4",
+    "vite": "^2.8.0"
+  }
+}
