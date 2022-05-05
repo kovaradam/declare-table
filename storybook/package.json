@@ -1,0 +1,29 @@
+{
+  "name": "declare-table-storybook",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "storybook": "start-storybook -p 6006",
+    "start": "npm run storybook",
+    "build-storybook": "build-storybook"
+  },
+  "dependencies": {
+    "declare-table": "file:..",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@storybook/addon-actions": "^6.4.22",
+    "@storybook/addon-essentials": "^6.4.22",
+    "@storybook/addon-interactions": "^6.4.22",
+    "@storybook/addon-links": "^6.4.22",
+    "@storybook/react": "^6.4.22",
+    "@storybook/testing-library": "^0.0.9",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@vitejs/plugin-react": "^1.0.7",
+    "babel-loader": "^8.2.4",
+    "typescript": "^4.5.4"
+  }
+}
